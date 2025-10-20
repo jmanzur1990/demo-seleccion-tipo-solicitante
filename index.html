@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipo de Solicitante</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pluto+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pluto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+
+        body {
+            font-family: 'Pluto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #88CFEE 0%, #88CFEE 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 60px 40px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #757575;
+            font-weight: 400;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card input[type="radio"] {
+            display: none;
+        }
+
+        .card-content {
+            padding: 40px 30px;
+            border: 2px solid #E0E0E0;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #FAFAFA;
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 280px;
+        }
+
+        .card input[type="radio"]:checked + .card-content {
+            border-color: #88CFEE;
+            background: #F0F9FC;
+            box-shadow: 0 4px 16px rgba(136, 207, 238, 0.25);
+        }
+
+        .card-content.red-variant {
+            border-color: #E0E0E0;
+            background: #FAFAFA;
+        }
+
+        .card input[type="radio"]:checked + .card-content.red-variant {
+            border-color: #DB473C;
+            background: #FEF4F2;
+            box-shadow: 0 4px 16px rgba(219, 71, 60, 0.15);
+        }
+
+        .card:hover .card-content {
+            border-color: #88CFEE;
+            box-shadow: 0 2px 12px rgba(136, 207, 238, 0.15);
+        }
+
+        .card:nth-child(2):hover .card-content {
+            border-color: #DB473C;
+            box-shadow: 0 2px 12px rgba(219, 71, 60, 0.1);
+        }
+
+        .icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            position: relative;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 40%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card:hover .icon {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+            border-color: rgba(255, 255, 255, 1);
+        }
+
+        .card:hover .icon img {
+            transform: scale(1.08);
+            filter: brightness(1.1) contrast(1.05);
+        }
+
+        .card:hover .icon::before {
+            opacity: 1;
+        }
+
+        .icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(136, 207, 238, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .card input[type="radio"]:checked + .card-content .icon {
+            box-shadow: 0 8px 25px rgba(136, 207, 238, 0.4);
+            border-color: #88CFEE;
+            transform: scale(1.05);
+        }
+
+        .card:nth-child(2) input[type="radio"]:checked + .card-content .icon {
+            box-shadow: 0 8px 25px rgba(219, 71, 60, 0.4);
+            border-color: #DB473C !important;
+            transform: scale(1.05);
+            background: #DB473C !important;
+        }
+
+        .card input[type="radio"]:checked + .card-content .icon::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(136, 207, 238, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+        }
+
+        .card:nth-child(2) input[type="radio"]:checked + .card-content .icon::before {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(219, 71, 60, 0.1) 100%);
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .card input[type="radio"]:checked + .card-content .card-title {
+            color: #88CFEE;
+        }
+
+        .card:nth-child(2) input[type="radio"]:checked + .card-content .card-title {
+            color: #DB473C !important;
+            font-weight: 700;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            font-weight: 400;
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        .card-description .spanish-text {
+            display: block;
+            margin-bottom: 4px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .card-description .english-text {
+            display: block;
+            color: #888;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #E0E0E0;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+
+        .card input[type="radio"]:checked ~ .card-content ~ .checkmark {
+            background: #88CFEE;
+            border-color: #88CFEE;
+        }
+
+        .card:nth-child(2) input[type="radio"]:checked ~ .card-content ~ .checkmark {
+            background: #DB473C !important;
+            border-color: #DB473C !important;
+        }
+
+        .card input[type="radio"]:checked ~ .card-content ~ .checkmark::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .btn-primary {
+            background: #88CFEE;
+            color: #1a1a1a;
+            box-shadow: 0 2px 8px rgba(136, 207, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #6CC0E0;
+            box-shadow: 0 4px 12px rgba(136, 207, 238, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #949699;
+            color: white;
+            box-shadow: 0 2px 8px rgba(148, 150, 153, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: #7A7D80;
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Seleccionar Nacionalidad</h1>
+            <p>Select Nationality </p>
+        </div>
+
+        <form>
+            <div class="options-grid">
+                <label class="card">
+                    <input type="radio" name="applicant_type" value="hondureno" required>
+                    <div class="card-content">
+                        <div class="icon"><img src="honduras.jpeg" alt="Honduras"></div>
+                        <h2 class="card-title">Hondureño</h2>
+                        <p class="card-description">
+                            <span class="spanish-text">Para nacidos o
+                                nacionalizados
+                                presione aqui</span>
+                            <span class="english-text">For Born or naturalized in Honduras click here</span>
+                        </p>
+                    </div>
+                    <div class="checkmark"></div>
+                </label>
+
+                <label class="card">
+                    <input type="radio" name="applicant_type" value="extranjero" required>
+                    <div class="card-content red-variant">
+                        <div class="icon"><img src="mundo.jpeg" alt="Mundo"></div>
+                        <h2 class="card-title">Extranjero</h2>
+                        <p class="card-description">
+                            <span class="spanish-text">Para extranjeros u otras nacionalidades presione aqui</span>
+                            <span class="english-text">For international applicants click here</span>
+                        </p>
+                    </div>
+                    <div class="checkmark"></div>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn-secondary">Cancelar</button>
+                <button type="submit" class="btn-primary">Continuar</button>
+            </div>
+        </form>
+
+        <div class="footer">
+            Copyright INM-SRECI © <span id="current-year">2025</span>
+        </div>
+    </div>
+
+    <script>
+        // Actualizar el año dinámicamente
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('current-year').textContent = currentYear;
+        });
+    </script>
+</body>
+</html>
